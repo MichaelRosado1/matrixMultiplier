@@ -1,5 +1,7 @@
 #include <iostream>
+#include "matrix.h"
 
 int main() {
-	std::cout << "Hello, world!" << std::endl;
+	Matrix *m1 = new Matrix();
+	m1->print_matrix();
 }
