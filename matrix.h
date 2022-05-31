@@ -4,8 +4,9 @@
 class Matrix {
 	public:
 		// default matrix of size 
-		Matrix();
 		// matrix with desired col and row 
+		Matrix(int col = 2, int row = 2);
+
 		Matrix(int, int, std::string);
 
 		void load_matrix(std::string);
@@ -14,7 +15,7 @@ class Matrix {
 
 
 
-		void fill_defualt_matrix();
+		void fill_defualt_matrix(int, int);
 		void print_matrix();
 
 		std::vector<std::vector<int> > matrix;	

@@ -4,10 +4,11 @@
 #include <vector>
 #include <string>
 
-Matrix::Matrix() {
-	this->row_number = 2;
-	this->col_number = 2;
-	this->fill_defualt_matrix();
+
+Matrix::Matrix(int col, int row) {
+	this->row_number = row;
+	this->col_number = col;
+	this->fill_defualt_matrix(this->col_number, this->row_number);	
 }
 
 Matrix::Matrix(int col, int row, std::string filepath) { 
@@ -51,7 +52,7 @@ Matrix Matrix::operator+(const Matrix m2) {
 		return Matrix();
 	}
 
-	Matrix output(this->col_number, this->row_number, "");
+	Matrix output(this->col_number, this->row_number);
 	std::vector<std::thread> threadVector;	
 	for (int i = 0; i < this->col_number; i++) {
 		threadVector.push_back(Matrix::add_row_thread(*this, m2, i));
@@ -65,14 +66,14 @@ Matrix Matrix::operator+(const Matrix m2) {
 }
 
 
-void Matrix::fill_defualt_matrix() {
+void Matrix::fill_defualt_matrix(int col, int row) {
 	// default 2x2 matrix
-	for(int i = 0; i < this->col_number; i++) {
-		std::vector<int> row;
-		for(int j = 0; j < this->row_number; j++) {
-			row.push_back(j);
+	for(int i = 0; i < col; i++) {
+		std::vector<int> matrixrow;
+		for(int j = 0; j < row; j++) {
+			matrixrow.push_back(j);
 		}
-		this->matrix.push_back(row);
+		this->matrix.push_back(matrixrow);
 	} 
 }
 
