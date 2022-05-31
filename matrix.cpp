@@ -1,6 +1,8 @@
 #include "matrix.h"
+#include <fstream>
 #include <thread>
 #include <vector>
+#include <string>
 
 Matrix::Matrix() {
 	this->row_number = 2;
@@ -8,22 +10,39 @@ Matrix::Matrix() {
 	this->fill_defualt_matrix();
 }
 
-Matrix::Matrix(int col, int row) { 
+Matrix::Matrix(int col, int row, std::string filepath) { 
 	this->row_number = row;
 	this->col_number = col;
-}
-void Matrix::addRow() {
-	// std::vector<int> out_row;
-	// for (int i = 0; m1.size(); i++) {
-	// 	out_row.push_back(m1[i] + m2[i]);
-	// }
-	// out.matrix[rowNumber] = out_row;
-	std::cout << "add row" << std::endl;
+	// building empty vector
+	this->mat.resize(this->row_number);
+	for (auto& m: this->mat)
+		m.resize(this->col_number);
+
+	this->load_matrix(filepath);
+
 }
 
-void Matrix::add_row_thread() {
-	std::thread t = std::thread(&Matrix::addRow, this);
-	t.join();
+void Matrix::load_matrix(std::string filepath) {
+	std::ifstream file(filepath);
+
+	if (!file) {
+		std::cout << "error opening matrix file. " << std::endl;
+		return;
+	}	
+	for (auto& outer: this->mat) {
+		for (auto& inner: outer) {
+			file >> inner;
+		}
+	}
+}
+
+void Matrix::addRow(Matrix m1, Matrix m2, int row) {
+
+}
+
+std::thread Matrix::add_row_thread(Matrix m1, Matrix m2, int row) {
+	std::thread t = std::thread(&Matrix::addRow, this, m1, m2, row);
+	return t;
 }
 
 Matrix Matrix::operator+(const Matrix m2) {
@@ -32,10 +51,10 @@ Matrix Matrix::operator+(const Matrix m2) {
 		return Matrix();
 	}
 
-	Matrix output(this->col_number, this->row_number);
+	Matrix output(this->col_number, this->row_number, "");
 	std::vector<std::thread> threadVector;	
 	for (int i = 0; i < this->col_number; i++) {
-		Matrix::add_row_thread();
+		threadVector.push_back(Matrix::add_row_thread(*this, m2, i));
 	}
 
 	for (auto& t : threadVector) {
@@ -59,14 +78,11 @@ void Matrix::fill_defualt_matrix() {
 
 
 void Matrix::print_matrix() {
-	for (int i = 0; i < this->col_number; i++) {
-		std::cout << "row:" << i << " ["; 
-		for (int j = 0; j < this->row_number; j++) {
-			std::cout<< " " << this->matrix[i][j] << " ";
+	for (auto& r: this->mat) {
+		std::cout << "{";
+		for (auto& c: r) {
+			std::cout << c << ", ";
 		}
-		std::cout << "]\n";
+		std::cout << "} \n";
 	}
 }
-
-
-

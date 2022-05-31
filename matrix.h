@@ -6,7 +6,9 @@ class Matrix {
 		// default matrix of size 
 		Matrix();
 		// matrix with desired col and row 
-		Matrix(int, int);
+		Matrix(int, int, std::string);
+
+		void load_matrix(std::string);
 
 		Matrix operator+(const Matrix m2);
 
@@ -16,9 +18,10 @@ class Matrix {
 		void print_matrix();
 
 		std::vector<std::vector<int> > matrix;	
-		void addRow();
-		void add_row_thread();
+		void addRow(Matrix, Matrix, int);
+		std::thread add_row_thread(Matrix, Matrix, int);
 	private:
 		int col_number, row_number;
+		std::vector<std::vector<int>> mat;
 };
 
