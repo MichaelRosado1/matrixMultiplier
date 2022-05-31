@@ -1,5 +1,5 @@
-CC= g++
-CFLAGS= -g -Wall
+CC= g++ -std=c++11 
+CFLAGS= -g -Wall -pthread
 OBJFILES = main.o matrix.o
 TARGET = build
 

@@ -2,6 +2,9 @@
 #include "matrix.h"
 
 int main() {
-	Matrix *m1 = new Matrix();
-	m1->print_matrix();
+	Matrix m1 = Matrix();
+	Matrix m2 = Matrix();
+
+	m1 + m2;
+	
 }
